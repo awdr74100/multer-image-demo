@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button class="btn">按鈕</button>
+    <input type="file" class="file" multiple />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      const btn = document.querySelector('.btn');
+      const file = document.querySelector('.file');
+      btn.addEventListener('click', async function (e) {
+        e.preventDefault();
+        const { data } = await axios.get('http://localhost:3000');
+        console.log(data);
+        console.log(this);
+      });
+      file.addEventListener('change', async function (e) {
+        e.preventDefault();
+        const formData = new FormData();
+        [...e.target.files].forEach((file) => {
+          console.log(file);
+          formData.append('images', file);
+        });
+
+        const { data } = await axios.post(
+          'http://localhost:3000/images',
+          formData,
+        );
+        console.log(data);
+        // formData.append('image', payload);
+        // const { data } = await axios.post(
+        //   'http://localhost:3000/image',
+        //   formData,
+        // );
+        // console.log(data);
+      });
+    </script>
+  </body>
+</html>
